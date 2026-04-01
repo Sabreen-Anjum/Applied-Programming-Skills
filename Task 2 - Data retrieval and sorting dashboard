@@ -1,0 +1,91 @@
+import java.util.*;
+
+class Student {
+    int id;
+    String name, dept;
+    int marks;
+
+    Student(int id, String name, String dept, int marks) {
+        this.id = id;
+        this.name = name;
+        this.dept = dept;
+        this.marks = marks;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Sample data (acts like database)
+        ArrayList<Student> list = new ArrayList<>();
+        list.add(new Student(1,"Anjum","AIML",85));
+        list.add(new Student(2,"Sara","CSE",90));
+        list.add(new Student(3,"Ali","AIML",78));
+        list.add(new Student(4,"John","ECE",88));
+        list.add(new Student(5,"Zara","CSE",92));
+
+        System.out.println("----- TASK 2 DASHBOARD -----");
+        System.out.println("1. Display All Students");
+        System.out.println("2. Sort by Marks");
+        System.out.println("3. Filter by Department");
+        System.out.println("4. Count Students per Department");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+
+            case 1:
+                display(list);
+                break;
+
+            case 2:
+                list.sort((a, b) -> b.marks - a.marks); // sorting
+                display(list);
+                break;
+
+            case 3:
+                System.out.print("Enter Department: ");
+                String dept = sc.nextLine();
+
+                ArrayList<Student> filtered = new ArrayList<>();
+                for (Student s : list) {
+                    if (s.dept.equalsIgnoreCase(dept)) {
+                        filtered.add(s);
+                    }
+                }
+                display(filtered);
+                break;
+
+            case 4:
+                HashMap<String, Integer> map = new HashMap<>();
+
+                for (Student s : list) {
+                    map.put(s.dept, map.getOrDefault(s.dept, 0) + 1);
+                }
+
+                System.out.println("\nDepartment-wise Count:");
+                for (String d : map.keySet()) {
+                    System.out.println(d + " : " + map.get(d));
+                }
+                break;
+
+            default:
+                System.out.println("Invalid choice");
+        }
+    }
+
+    static void display(ArrayList<Student> list) {
+        System.out.println("\n----- RESULT -----");
+        System.out.printf("%-5s %-10s %-15s %-10s\n",
+                "ID","Name","Department","Marks");
+
+        for (Student s : list) {
+            System.out.printf("%-5d %-10s %-15s %-10d\n",
+                    s.id, s.name, s.dept, s.marks);
+        }
+    }
+}
